@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
     }
   </style>
 </head>
+
 <body>
   <!-- Panel kontrol dat.GUI -->
   <div id="gui-container"></div>
@@ -23,12 +25,26 @@
     <script type="module" src="./script.js"></script>
   </div>
 
-  <!-- Popup info planet -->
+  <!-- Perbaiki struktur div untuk perbandingan -->
   <div id="planetInfo" class="planet-info">
     <div class="planet-info-content">
       <span class="close-btn" onclick="closeInfo()">&times;</span>
       <h2 id="planetName"></h2>
       <p id="planetDetails"></p>
+      <button id="compareBtn" class="compare-btn">Bandingkan Planet</button>
+    </div>
+  </div>
+
+  <!-- Pisahkan planetSelector dan comparisonView -->
+  <div id="planetSelector" class="planet-selector">
+    <h3 style="color: #00eaff; margin-top: 0;">Pilih Planet untuk Dibandingkan</h3>
+    <div id="planetOptions"></div>
+  </div>
+
+  <div id="comparisonView" class="comparison-view">
+    <div class="comparison-content">
+      <div id="planet1View" class="planet-compare-info"></div>
+      <div id="planet2View" class="planet-compare-info"></div>
     </div>
   </div>
 
@@ -39,4 +55,5 @@
     <p id="quiz-result"></p>
   </div>
 </body>
+
 </html>

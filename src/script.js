@@ -203,6 +203,7 @@ function showPlanetInfo(planet) {
   details.innerText = `Radius: ${planetData[planet].radius}\nTilt: ${planetData[planet].tilt}\nRotation: ${planetData[planet].rotation}\nOrbit: ${planetData[planet].orbit}\nDistance: ${planetData[planet].distance}\nMoons: ${planetData[planet].moons}\nInfo: ${planetData[planet].info}`;
 
   info.style.display = 'block';
+  initComparePlanet();
 }
 let isZoomingOut = false;
 let zoomOutTargetPosition = new THREE.Vector3(-175, 115, 5);
@@ -774,6 +775,17 @@ if (isMovingTowardsPlanet) {
       isZoomingOut = false;
   }
 }
+  if (!scene || !renderer) return;
+
+  // Tambahkan pengecekan sebelum merender
+  if (composer.passes.length > 0) {
+    composer.render();
+  } else {
+    renderer.render(scene, camera);
+  }
+
+  // Update controls
+  controls.update();
 
   controls.update();
   requestAnimationFrame(animate);
@@ -889,3 +901,171 @@ gui.add(settings, "showQuiz").name("Tampilkan Kuis").onChange(value => {
 
 // Default: tampilkan kuis
 quizPanel.classList.remove("hidden");
+
+// Add after planetData declaration
+
+let comparingPlanet = null;
+
+// Hapus fungsi yang duplikat dan perbaiki fungsi showPlanetComparison
+function showPlanetComparison(planet1, planet2) {
+  const planet1Obj = getPlanetObject(planet1);
+  const planet2Obj = getPlanetObject(planet2);
+
+  if (!planet1Obj || !planet2Obj) {
+    console.error('Planet tidak ditemukan');
+    return;
+  }
+
+  // Simpan posisi asli
+  const originalPositions = new Map();
+  Object.keys(planetData).forEach(name => {
+    const planet = getPlanetObject(name);
+    if (planet && planet.planetSystem) {
+      originalPositions.set(name, planet.planetSystem.position.clone());
+      planet.planetSystem.visible = false;
+    }
+  });
+
+  // Tampilkan hanya planet yang dibandingkan
+  planet1Obj.planetSystem.visible = true;
+  planet2Obj.planetSystem.visible = true;
+
+  // Atur posisi untuk perbandingan
+  planet1Obj.planetSystem.position.set(-30, 0, 0);
+  planet2Obj.planetSystem.position.set(30, 0, 0);
+
+  // Update tampilan perbandingan
+  document.getElementById('comparisonView').style.display = 'block';
+  document.getElementById('planetInfo').style.display = 'none';
+  
+  // Update info perbandingan
+  updateComparisonInfo(planet1, planet2);
+
+  // Tambahkan tombol kembali
+  addBackButton(originalPositions, planet1Obj, planet2Obj);
+
+  // Atur kamera untuk tampilan perbandingan
+  setupComparisonCamera();
+}
+
+// Fungsi helper untuk update info perbandingan
+function updateComparisonInfo(planet1, planet2) {
+  const createPlanetInfo = (planet) => `
+    <h2>${planet}</h2>
+    <div class="planet-compare-details">
+      <p><strong>Radius:</strong> ${planetData[planet].radius}</p>
+      <p><strong>Jarak dari Matahari:</strong> ${planetData[planet].distance}</p>
+      <p><strong>Rotasi:</strong> ${planetData[planet].rotation}</p>
+      <p><strong>Orbit:</strong> ${planetData[planet].orbit}</p>
+      <p><strong>Bulan:</strong> ${planetData[planet].moons}</p>
+    </div>
+  `;
+
+  document.getElementById('planet1View').innerHTML = createPlanetInfo(planet1);
+  document.getElementById('planet2View').innerHTML = createPlanetInfo(planet2);
+}
+
+// Fungsi untuk menambahkan tombol kembali
+function addBackButton(originalPositions, planet1Obj, planet2Obj) {
+  const backBtn = document.createElement('button');
+  backBtn.innerHTML = 'Kembali ke Tata Surya';
+  backBtn.className = 'compare-btn';
+  backBtn.onclick = () => resetComparison(originalPositions, planet1Obj, planet2Obj);
+  document.querySelector('.comparison-content').appendChild(backBtn);
+}
+
+// Fungsi untuk reset perbandingan
+function resetComparison(originalPositions, planet1Obj, planet2Obj) {
+  // Kembalikan posisi semua planet
+  originalPositions.forEach((position, planetName) => {
+    const planet = getPlanetObject(planetName);
+    if (planet && planet.planetSystem) {
+      planet.planetSystem.position.copy(position);
+      planet.planetSystem.visible = true;
+    }
+  });
+
+  // Reset tampilan
+  document.getElementById('comparisonView').style.display = 'none';
+  document.getElementById('planetSelector').style.display = 'none';
+
+  // Reset kamera
+  camera.position.copy(zoomOutTargetPosition);
+  controls.target.set(0, 0, 0);
+}
+
+// Fungsi untuk setup kamera perbandingan
+function setupComparisonCamera() {
+  camera.position.set(0, 30, 100);
+  controls.target.set(0, 0, 0);
+  controls.update();
+}
+
+// Perbarui fungsi initComparePlanet
+function initComparePlanet() {
+  const compareBtn = document.getElementById('compareBtn');
+  if (!compareBtn) return;
+
+  compareBtn.onclick = () => {
+    const planetSelector = document.getElementById('planetSelector');
+    const planetOptions = document.getElementById('planetOptions');
+    planetOptions.innerHTML = '';
+
+    Object.keys(planetData).forEach(planetName => {
+      if (planetName !== selectedPlanet.name) {
+        const option = document.createElement('div');
+        option.className = 'planet-option';
+        option.textContent = planetName;
+        option.onclick = () => {
+          planetSelector.style.display = 'none';
+          showPlanetComparison(selectedPlanet.name, planetName);
+        };
+        planetOptions.appendChild(option);
+      }
+    });
+
+    planetSelector.style.display = 'block';
+  };
+}
+
+function resetView() {
+  // Kembalikan visibilitas semua planet
+  Object.keys(planetData).forEach(planetName => {
+    const planetObj = getPlanetObject(planetName);
+    if (planetObj && planetObj.planetSystem) {
+      planetObj.planetSystem.visible = true;
+    }
+  });
+
+  // Reset camera position
+  camera.position.copy(zoomOutTargetPosition);
+  controls.target.set(0, 0, 0);
+
+  // Pastikan lighting kembali
+  scene.add(lightAmbient);
+  scene.add(pointLight);
+
+  // Reset render settings
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  composer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function getPlanetObject(planetName) {
+  try {
+    switch(planetName) {
+      case 'Mercury': return mercury;
+      case 'Venus': return venus;
+      case 'Earth': return earth;
+      case 'Mars': return mars;
+      case 'Jupiter': return jupiter;
+      case 'Saturn': return saturn;
+      case 'Uranus': return uranus;
+      case 'Neptune': return neptune;
+      case 'Pluto': return pluto;
+      default: return null;
+    }
+  } catch (error) {
+    console.error('Error getting planet object:', error);
+    return null;
+  }
+}

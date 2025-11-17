@@ -297,7 +297,7 @@ body {
   background: linear-gradient(135deg, #7700ff, #00ffff);
   color: white;
   border: none;
-  padding: 14px 24px;
+  padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
   margin-top: 25px;
@@ -315,42 +315,277 @@ body {
               0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.close-btn {
-  color: #ffff99;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 40px;
-  height: 40px;
+.comparison-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 30;
+  display: none;
+  animation: fadeIn 0.5s ease-out;
+  backdrop-filter: blur(5px);
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to { 
+    opacity: 1;
+    backdrop-filter: blur(5px);
+  }
+}
+
+.comparison-content {
   display: flex;
-  align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  align-items: flex-start;
+  height: 100%;
+  padding: 40px 20px;
+  gap: 60px;
+  max-width: 1600px;
+  margin: 0 auto;
+  overflow-y: auto;
 }
 
-.close-btn:hover {
-  color: #fff;
-  transform: rotate(90deg);
-  background: rgba(255, 255, 255, 0.1);
+.planet-compare-info {
+  flex: 1;
+  max-width: 500px;
+  background: linear-gradient(135deg, rgba(5, 5, 20, 0.95), rgba(10, 10, 30, 0.95));
+  padding: 30px;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 150, 0.6);
+  box-shadow: 
+    0 0 50px rgba(0, 255, 255, 0.2),
+    inset 0 0 30px rgba(255, 255, 150, 0.1),
+    0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-/* === SCROLLBAR STYLING === */
-::-webkit-scrollbar {
-  width: 8px;
+.planet-compare-info:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #7700ff, #00ffff, #7700ff);
+  animation: shimmer 2s infinite;
 }
 
-::-webkit-scrollbar-track {
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.planet-compare-info:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 
+    0 0 60px rgba(0, 255, 255, 0.4),
+    inset 0 0 40px rgba(255, 255, 150, 0.15),
+    0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.planet-compare-info h2 {
+  color: #00eaff;
+  font-size: 2.2em;
+  margin: 0 0 25px 0;
+  text-align: center;
+  text-shadow: 0 0 15px rgba(0, 234, 255, 0.5);
+  font-weight: 700;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.planet-compare-info h2:after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #7700ff, #00ffff);
+  border-radius: 2px;
+}
+
+.planet-compare-details {
+  margin-top: 20px;
+  padding: 25px;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, #7700ff, #00ffff);
-  border-radius: 10px;
+.planet-compare-details p {
+  margin: 15px 0;
+  line-height: 1.8;
+  font-size: 1.1em;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(45deg, #8811ff, #11ffff);
+.planet-compare-details p:last-child {
+  border-bottom: none;
+}
+
+.planet-compare-details p:hover {
+  background: rgba(255, 255, 255, 0.05);
+  padding-left: 10px;
+  border-radius: 8px;
+}
+
+.planet-compare-details p strong {
+  color: #ffff99;
+  font-weight: 600;
+  min-width: 120px;
+  text-align: left;
+}
+
+/* Styling untuk tombol kembali dalam comparison view */
+.comparison-content .compare-btn {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  background: linear-gradient(135deg, #ff6b35, #f7931e);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 5px 20px rgba(255, 107, 53, 0.3);
+}
+
+.comparison-content .compare-btn:hover {
+  transform: translateX(-50%) translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(255, 107, 53, 0.5);
+  background: linear-gradient(135deg, #ff8563, #ffa94e);
+}
+
+/* Responsive design untuk mobile */
+@media (max-width: 768px) {
+  .comparison-content {
+    flex-direction: column;
+    padding: 20px 15px;
+    gap: 30px;
+    align-items: center;
+  }
+  
+  .planet-compare-info {
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  .planet-compare-info h2 {
+    font-size: 1.8em;
+  }
+  
+  .comparison-content .compare-btn {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    margin-top: 30px;
+  }
+}
+
+/* Animasi untuk planet selector */
+.planet-selector {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  max-width: 90vw;
+  background: linear-gradient(135deg, rgba(5, 5, 20, 0.98), rgba(15, 15, 40, 0.98));
+  padding: 30px;
+  border: 2px solid rgba(255, 255, 150, 0.6);
+  border-radius: 20px;
+  z-index: 35;
+  box-shadow: 
+    0 0 50px rgba(0, 255, 255, 0.3),
+    inset 0 0 30px rgba(255, 255, 150, 0.1);
+  backdrop-filter: blur(10px);
+  animation: popIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.planet-selector h3 {
+  color: #00eaff;
+  text-align: center;
+  margin: 0 0 25px 0;
+  font-size: 1.4em;
+  text-shadow: 0 0 10px rgba(0, 234, 255, 0.5);
+}
+
+.planet-option {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 15px 20px;
+  margin: 10px 0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1.1em;
+  text-align: center;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.planet-option:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.planet-option:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(0, 255, 255, 0.5);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 5px 20px rgba(0, 255, 255, 0.2);
+  color: #00ffff;
+}
+
+.planet-option:hover:before {
+  left: 100%;
+}
+
+.planet-option:active {
+  transform: translateY(0) scale(0.98);
 }

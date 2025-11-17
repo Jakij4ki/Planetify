@@ -200,7 +200,7 @@ function showPlanetInfo(planet) {
   var details = document.getElementById('planetDetails');
 
   name.innerText = planet;
-  details.innerText = `Radius: ${planetData[planet].radius}\nTilt: ${planetData[planet].tilt}\nRotation: ${planetData[planet].rotation}\nOrbit: ${planetData[planet].orbit}\nDistance: ${planetData[planet].distance}\nMoons: ${planetData[planet].moons}\nInfo: ${planetData[planet].info}`;
+  details.innerText = `Radius: ${planetData[planet].radius}\nTilt: ${planetData[planet].kemiringan}\nRotation: ${planetData[planet].rotasi}\nOrbit: ${planetData[planet].orbit}\nDistance: ${planetData[planet].jarak}\nMoons: ${planetData[planet].bulan}\nInfo: ${planetData[planet].info}`;
 
   info.style.display = 'block';
   initComparePlanet();
@@ -493,9 +493,9 @@ const jupiterMoons = [
 ];
 
 // ******  PLANET CREATIONS  ******
-const mercury = new createPlanet('Mercury', 2.4, 40, 0, mercuryTexture, mercuryBump);
+const mercury = new createPlanet('Merkurius', 2.4, 40, 0, mercuryTexture, mercuryBump);
 const venus = new createPlanet('Venus', 6.1, 65, 3, venusTexture, venusBump, null, venusAtmosphere);
-const earth = new createPlanet('Earth', 6.4, 90, 23, earthMaterial, null, null, earthAtmosphere, earthMoon);
+const earth = new createPlanet('Bumi', 6.4, 90, 23, earthMaterial, null, null, earthAtmosphere, earthMoon);
 const mars = new createPlanet('Mars', 3.4, 115, 25, marsTexture, marsBump)
 // Load Mars moons
 marsMoons.forEach(moon => {
@@ -527,31 +527,31 @@ const pluto = new createPlanet('Pluto', 1, 350, 57, plutoTexture)
 
   // ******  PLANETS DATA  ******
   const planetData = {
-  'Mercury': {
+  'Merkurius': {
       radius: '2.439,7 km',
-      tilt: '0,03°',
-      rotation: '59 hari Bumi',
+      kemiringan: '0,03°',
+      rotasi: '59 hari Bumi',
       orbit: '88 hari Bumi',
-      distance: '57,9 juta km',
-      moons: 'Tidak ada',
+      jarak: '57,9 juta km',
+      bulan: 'Tidak ada',
       info: 'Planet terkecil dan terdekat dengan Matahari. Permukaannya penuh kawah seperti Bulan.'
   },
   'Venus': {
       radius: '6.052 km',
-      tilt: '177,4°',
-      rotation: '243 hari Bumi',
+      kemiringan: '177,4°',
+      rotasi: '243 hari Bumi',
       orbit: '225 hari Bumi',
-      distance: '108 juta km',
-      moons: 'Tidak ada',
+      jarak: '108 juta km',
+      bulan: 'Tidak ada',
       info: 'Planet kedua dari Matahari, dikenal karena atmosfer tebal dan suhu yang sangat panas.'
   },
-  'Earth': {
+  'Bumi': {
       radius: '6.371 km',
-      tilt: '23,5°',
-      rotation: '24 jam',
+      kemiringan: '23,5°',
+      rotasi: '24 jam',
       orbit: '365 hari',
-      distance: '150 juta km',
-      moons: '1 (Bulan)',
+      jarak: '150 juta km',
+      bulan: '1 (Bulan)',
       info: 'Satu-satunya planet yang diketahui memiliki kehidupan dan lautan air di permukaannya.'
   },
   'Mars': {
@@ -954,10 +954,10 @@ function updateComparisonInfo(planet1, planet2) {
     <h2>${planet}</h2>
     <div class="planet-compare-details">
       <p><strong>Radius:</strong> ${planetData[planet].radius}</p>
-      <p><strong>Jarak dari Matahari:</strong> ${planetData[planet].distance}</p>
-      <p><strong>Rotasi:</strong> ${planetData[planet].rotation}</p>
+      <p><strong>Jarak dari Matahari:</strong> ${planetData[planet].jarak}</p>
+      <p><strong>Rotasi:</strong> ${planetData[planet].rotasi}</p>
       <p><strong>Orbit:</strong> ${planetData[planet].orbit}</p>
-      <p><strong>Bulan:</strong> ${planetData[planet].moons}</p>
+      <p><strong>Bulan:</strong> ${planetData[planet].bulan}</p>
     </div>
   `;
 

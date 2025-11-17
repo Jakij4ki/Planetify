@@ -200,7 +200,7 @@ function showPlanetInfo(planet) {
   var details = document.getElementById('planetDetails');
 
   name.innerText = planet;
-  details.innerText = `Radius: ${planetData[planet].radius}\nTilt: ${planetData[planet].kemiringan}\nRotation: ${planetData[planet].rotasi}\nOrbit: ${planetData[planet].orbit}\nDistance: ${planetData[planet].jarak}\nMoons: ${planetData[planet].bulan}\nInfo: ${planetData[planet].info}`;
+  details.innerText = `Radius: ${planetData[planet].radius}\nKemiringan: ${planetData[planet].kemiringan}\nRotasi: ${planetData[planet].rotasi}\nOrbit: ${planetData[planet].orbit}\nJarak: ${planetData[planet].jarak}\nBulan: ${planetData[planet].bulan}\nInfo: ${planetData[planet].info}`;
 
   info.style.display = 'block';
   initComparePlanet();

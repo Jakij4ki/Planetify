@@ -556,29 +556,29 @@ const pluto = new createPlanet('Pluto', 1, 350, 57, plutoTexture)
   },
   'Mars': {
       radius: '3.390 km',
-      tilt: '25,2°',
-      rotation: '24,6 jam',
+      kemiringan: '25,2°',
+      rotasi: '24,6 jam',
       orbit: '687 hari Bumi',
-      distance: '228 juta km',
-      moons: '2 (Phobos dan Deimos)',
+      jarak: '228 juta km',
+      bulan: '2 (Phobos dan Deimos)',
       info: 'Dikenal sebagai Planet Merah karena warna permukaannya yang berkarat.'
   },
   'Jupiter': {
       radius: '69.911 km',
-      tilt: '3,1°',
-      rotation: '10 jam',
+      kemiringan: '3.1°',
+      rotasi: '10 jam',
       orbit: '12 tahun Bumi',
-      distance: '778 juta km',
-      moons: '95 bulan (terbesar: Ganymede, Callisto, Europa, Io)',
+      jarak: '778 juta km',
+      bulan: '95 bulan (terbesar: Ganymede, Callisto, Europa, Io)',
       info: 'Planet terbesar di tata surya dengan badai raksasa bernama Great Red Spot.'
   },
   'Saturn': {
       radius: '58.232 km',
-      tilt: '26,7°',
-      rotation: '10,7 jam',
+      kemiringan: '26,7°',
+      rotasi: '10,7 jam',
       orbit: '29 tahun Bumi',
-      distance: '1,4 miliar km',
-      moons: '146 bulan',
+      jarak: '1,4 miliar km',
+      bulan: '146 bulan',
       info: 'Memiliki sistem cincin paling indah dan luas di antara planet lain.'
   },
   'Uranus': {

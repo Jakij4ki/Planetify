@@ -119,7 +119,7 @@ body {
 
 /* === DAT.GUI STYLING === */
 .dg {
-  font: 13px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  font: 11px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
   background: rgba(15, 15, 25, 0.95) !important;
   border-radius: 8px !important;
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);

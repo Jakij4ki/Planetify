@@ -99,18 +99,35 @@ const gui = new dat.GUI({ autoPlace: false });
 const customContainer = document.getElementById('gui-container');
 customContainer.appendChild(gui.domElement);
 
+// Ubah teks Close Controls ke Bahasa Indonesia
+const closeButton = gui.domElement.querySelector('.close-button');
+if (closeButton) {
+  closeButton.textContent = 'Tutup Kontrol';
+  
+  // Tambahkan event listener untuk mengganti teks saat diklik
+  closeButton.addEventListener('click', function() {
+    setTimeout(function() {
+      if (gui.closed) {
+        closeButton.textContent = 'Buka Kontrol';
+      } else {
+        closeButton.textContent = 'Tutup Kontrol';
+      }
+    }, 50);
+  });
+}
 // ****** SETTINGS FOR INTERACTIVE CONTROLS  ******
 const settings = {
   accelerationOrbit: 1,
   acceleration: 1,
-  sunIntensity: 1.9
+  sunIntensity: 1.9,
+  showQuiz: true
 };
 
-gui.add(settings, 'accelerationOrbit', 0, 10).onChange(value => {
+gui.add(settings, 'accelerationOrbit', 0, 10).name('Kecepatan Orbit').onChange(value => {
 });
-gui.add(settings, 'acceleration', 0, 10).onChange(value => {
+gui.add(settings, 'acceleration', 0, 10).name('Kecepatan Rotasi').onChange(value => {
 });
-gui.add(settings, 'sunIntensity', 1, 10).onChange(value => {
+gui.add(settings, 'sunIntensity', 1, 10).name('Intensitas Matahari').onChange(value => {
   sunMat.emissiveIntensity = value;
 });
 
@@ -512,7 +529,7 @@ marsMoons.forEach(moon => {
 });
 
 const jupiter = new createPlanet('Jupiter', 69/4, 200, 3, jupiterTexture, null, null, null, jupiterMoons);
-const saturn = new createPlanet('Saturn', 58/4, 270, 26, saturnTexture, null, {
+const saturn = new createPlanet('Saturnus', 58/4, 270, 26, saturnTexture, null, {
   innerRadius: 18, 
   outerRadius: 29, 
   texture: satRingTexture
@@ -522,7 +539,7 @@ const uranus = new createPlanet('Uranus', 25/4, 320, 82, uranusTexture, null, {
   outerRadius: 8, 
   texture: uraRingTexture
 });
-const neptune = new createPlanet('Neptune', 24/4, 340, 28, neptuneTexture);
+const neptune = new createPlanet('Neptunus', 24/4, 340, 28, neptuneTexture);
 const pluto = new createPlanet('Pluto', 1, 350, 57, plutoTexture)
 
   // ******  PLANETS DATA  ******
@@ -572,7 +589,7 @@ const pluto = new createPlanet('Pluto', 1, 350, 57, plutoTexture)
       bulan: '95 bulan (terbesar: Ganymede, Callisto, Europa, Io)',
       info: 'Planet terbesar di tata surya dengan badai raksasa bernama Great Red Spot.'
   },
-  'Saturn': {
+  'Saturnus': {
       radius: '58.232 km',
       kemiringan: '26,7°',
       rotasi: '10,7 jam',
@@ -583,29 +600,29 @@ const pluto = new createPlanet('Pluto', 1, 350, 57, plutoTexture)
   },
   'Uranus': {
       radius: '25.362 km',
-      tilt: '97,8°',
-      rotation: '17 jam',
+      kemiringan: '97,8°',
+      rotasi: '17 jam',
       orbit: '84 tahun Bumi',
-      distance: '2,9 miliar km',
-      moons: '27 bulan',
+      jarak: '2,9 miliar km',
+      bulan: '27 bulan',
       info: 'Planet ini berputar miring ke samping dan berwarna biru pucat.'
   },
-  'Neptune': {
+  'Neptunus': {
       radius: '24.622 km',
-      tilt: '28,3°',
-      rotation: '16 jam',
+      kemiringan: '28,3°',
+      rotasi: '16 jam',
       orbit: '165 tahun Bumi',
-      distance: '4,5 miliar km',
-      moons: '14 bulan',
+      jarak: '4,5 miliar km',
+      bulan: '14 bulan',
       info: 'Planet terjauh dari Matahari dengan angin tercepat di tata surya.'
   },
   'Pluto': {
       radius: '1.188 km',
-      tilt: '122,5°',
-      rotation: '6,4 hari Bumi',
+      kemiringan: '122,5°',
+      rotasi: '6,4 hari Bumi',
       orbit: '248 tahun Bumi',
-      distance: '5,9 miliar km',
-      moons: '5 (Charon, Styx, Nix, Kerberos, Hydra)',
+      jarak: '5,9 miliar km',
+      bulan: '5 (Charon, Styx, Nix, Kerberos, Hydra)',
       info: 'Sekarang diklasifikasikan sebagai planet katai, bukan planet utama.'
   }
 };
@@ -1053,14 +1070,14 @@ function resetView() {
 function getPlanetObject(planetName) {
   try {
     switch(planetName) {
-      case 'Mercury': return mercury;
+      case 'Merkurius': return mercury;
       case 'Venus': return venus;
-      case 'Earth': return earth;
+      case 'Bumi': return earth;
       case 'Mars': return mars;
       case 'Jupiter': return jupiter;
-      case 'Saturn': return saturn;
+      case 'Saturnus': return saturn;
       case 'Uranus': return uranus;
-      case 'Neptune': return neptune;
+      case 'Neptunus': return neptune;
       case 'Pluto': return pluto;
       default: return null;
     }
